@@ -1,0 +1,98 @@
+pragma solidity ^0.4.0;
+
+library JSON {
+
+    enum Type {
+        BOOL,
+        NUMBER,
+        STRING,
+        ARRAY,
+        OBJECT,
+        INVALID
+    }
+
+    struct ValueRef {
+        uint begin;
+        uint end;
+    }
+
+    function newValueRef(string memory s) internal pure returns (ValueRef) {
+        ValueRef memory ref;
+        ref.begin = 0;
+        ref.end = bytes(s).length;
+    }
+
+    function getType(ValueRef memory ref, string memory s) internal pure returns (Type) {
+        if (bytes(s)[ref.begin] == 't' || bytes(s)[ref.begin] == 'f') return Type.BOOL;
+        if (48 <= uint8(bytes(s)[ref.begin]) && uint8(bytes(s)[ref.begin]) <= 57) return Type.NUMBER;
+        if (bytes(s)[ref.begin] == '[') return Type.ARRAY;
+        if (bytes(s)[ref.begin] == '{') return Type.OBJECT;
+        return Type.INVALID;
+    }
+
+    function asBool(ValueRef memory ref, string memory s) internal pure returns (bool) {
+        return bytes(s)[ref.begin] == 't';
+    }
+
+    function asInt(ValueRef memory ref, string memory s) internal pure returns (int) {
+        bytes memory b = bytes(s);
+        int result = 0;
+        bool negative = false;
+        for (uint i = ref.begin; i < ref.end; i++) {
+            if (i == 0 && b[i] == '-') {
+                negative = true;
+                continue;
+            }
+            if (b[i] == '.') {
+                break;
+            }
+            require(b[i] <= 57);
+            result *= 10;
+            result += uint8(b[i]) - 48;
+        }
+        return result;
+    }
+
+    function asString(ValueRef memory ref, string memory s) internal pure returns (string) {
+        return eni("JSON", "parseString", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)");
+    }
+
+    function uintWorkaround(uint x) internal pure returns (string) {
+        return "it doesn't work";
+    }
+
+    function toUint(bytes memory b, uint i) internal pure returns (uint) {
+        return (uint(b[i*4+3]<<24))|(uint(b[i*4+2]<<16))|(uint(b[i*4+1]<<8))|(uint(b[i*4+0]));
+    }
+    function toValueRef(bytes memory b, uint i) internal pure returns (ValueRef) {
+        ValueRef memory ref;
+        ref.begin = toUint(b, i);
+        ref.end = toUint(b, i+4);
+        return ref;
+    }
+    function toValueRef(bytes memory b) internal pure returns (ValueRef) {
+        return toValueRef(b, 0);
+    }
+
+    function asArray(ValueRef memory ref, string memory s) internal pure returns (ValueRef[]) {
+        string memory eni_result = eni("JSON", "parseArray", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)");
+        bytes memory b = bytes(eni_result);
+
+        // 4 byte integer x2
+        ValueRef[] memory refs = new ValueRef[](b.length / 8);
+
+        for (uint i = 0; i < refs.length; i++) {
+            refs[i] = toValueRef(b, i);
+        }
+
+        return refs;
+    }
+
+    function arrayGet(ValueRef memory ref, string memory s, uint index) internal pure returns (ValueRef) {
+        return toValueRef(bytes(eni("JSON", "arrayGet", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)", "uintWorkaround(index)")));
+    }
+
+    function objectGet(ValueRef memory ref, string memory s, string key) internal pure returns (ValueRef) {
+        return toValueRef(bytes(eni("JSON", "objectGet", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)", key)));
+    }
+}
