@@ -54,11 +54,9 @@ library JSON {
     }
 
     function asString(ValueRef memory ref, string memory s) internal pure returns (string) {
-        return eni("JSON", "parseString", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)");
-    }
-
-    function uintWorkaround(uint x) internal pure returns (string) {
-        return "it doesn't work";
+uint ref_begin = ref.begin;
+uint ref_end = ref.end;
+        return eni("JSON", "parseString", s, ref_begin, ref_end);
     }
 
     function toUint(bytes memory b, uint i) internal pure returns (uint) {
@@ -75,7 +73,9 @@ library JSON {
     }
 
     function asArray(ValueRef memory ref, string memory s) internal pure returns (ValueRef[]) {
-        string memory eni_result = eni("JSON", "parseArray", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)");
+        uint ref_begin = ref.begin;
+	uint ref_end = ref.end;
+        string memory eni_result = eni("JSON", "parseArray", s, ref_begin, ref_end);
         bytes memory b = bytes(eni_result);
 
         // 4 byte integer x2
@@ -89,10 +89,14 @@ library JSON {
     }
 
     function arrayGet(ValueRef memory ref, string memory s, uint index) internal pure returns (ValueRef) {
-        return toValueRef(bytes(eni("JSON", "arrayGet", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)", "uintWorkaround(index)")));
+	uint ref_begin = ref.begin;
+	uint ref_end = ref.end;
+        return toValueRef(bytes(eni("JSON", "arrayGet", s, ref_begin, ref_end, index)));
     }
 
     function objectGet(ValueRef memory ref, string memory s, string key) internal pure returns (ValueRef) {
-        return toValueRef(bytes(eni("JSON", "objectGet", s, "uintWorkaround(ref.begin)", "uintWorkaround(ref.end)", key)));
+uint ref_begin = ref.begin;
+uint ref_end = ref.end;
+        return toValueRef(bytes(eni("JSON", "objectGet", s, ref_begin, ref_end, key)));
     }
 }
