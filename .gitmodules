@@ -4,3 +4,6 @@
 [submodule "SkyPat"]
 	path = SkyPat
 	url = https://github.com/skymizer/SkyPat.git
+[submodule "lityvm"]
+	path = lityvm
+	url = ../lityvm

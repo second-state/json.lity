@@ -1,7 +1,7 @@
 pragma lity ^1.2.4;
 
 contract ReverseContract {
-  function reverse(string input) public returns(string) {
+  function main(string input) public returns(string) {
     string memory output = eni("reverse", input);
     return output;
   }

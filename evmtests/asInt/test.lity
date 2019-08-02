@@ -1,0 +1,11 @@
+pragma lity ^1.2.4;
+
+import "./json.lity";
+
+contract Test {
+	using JSON for JSON.ValueRef;
+	function main(string raw) pure public returns(string) {
+		JSON.ValueRef memory root = JSON.newValueRef(raw);
+		return root.asString(raw);
+	}
+}

@@ -5,7 +5,7 @@ import sys
 
 
 def genin():
-    yield '064767aa'
+    yield '769f204d'
     yield '0000000000000000000000000000000000000000000000000000000000000020'
     with open(sys.argv[1]) as file:
         inputtext = file.read().strip().encode()

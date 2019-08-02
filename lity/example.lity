@@ -4,11 +4,12 @@ import "./json.lity";
 
 contract ExampleContract {
   using JSON for JSON.ValueRef;
-  function max_score_title(string raw) public returns(string) {
+  function main(string raw) pure public returns(string) {
     int maxscore = -999;
     string memory maxscore_title = "";
     JSON.ValueRef memory root = JSON.newValueRef(raw);
     JSON.ValueRef[] memory list_items = root.asArray(raw);
+    return maxscore_title;
     for (uint i = 0; i < list_items.length; i++) {
       JSON.ValueRef memory item_data = list_items[i].objectGet(raw, "data");
       int score = item_data.objectGet(raw, "score").asInt(raw);
@@ -17,6 +18,5 @@ contract ExampleContract {
         maxscore_title = item_data.objectGet(raw, "data").asString(raw);
       }
     }
-    return maxscore_title;
   }
 }

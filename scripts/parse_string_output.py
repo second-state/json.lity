@@ -11,4 +11,5 @@ stringlength = int.from_bytes(b[stringoffset:stringoffset + 32],
                               signed=False)
 # print(stringoffset)
 # print(stringlength)
-print(b[stringoffset + 32:stringoffset + 32 + stringlength].decode('utf-8'))
+b = b[stringoffset + 32:stringoffset + 32 + stringlength]
+print(b.decode('utf-8'))
