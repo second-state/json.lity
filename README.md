@@ -3,7 +3,7 @@
 1. Git clone this repo with --recursive
 2. run `build.sh` to build ENI and SkyPat
 3. Download `lityc` and put it in this directory
-4. Build evm with `--inputfile` support (included in submodule).
+4. Build evm with `--inputfile` support (`make -C lityvm evm`).
 
 # Usage examples
 
