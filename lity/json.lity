@@ -67,7 +67,6 @@ uint ref_end = ref.end;
         ValueRef memory ref;
         ref.begin = toUint(b, i);
         ref.end = toUint(b, i+4);
-        ref.end = 8;
         return ref;
     }
     function toValueRef(bytes memory b) internal pure returns (ValueRef) {
