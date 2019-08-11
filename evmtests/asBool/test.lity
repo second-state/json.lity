@@ -1,0 +1,13 @@
+pragma lity ^1.2.4;
+
+import "./json.lity";
+
+contract Test {
+	using JSON for JSON.ValueRef;
+	function main(string raw) pure public returns(string) {
+		JSON.ValueRef memory root = JSON.newValueRef(raw);
+                require(root.arrayGet(raw, 0).asBool(raw) == true);
+                require(root.arrayGet(raw, 1).asBool(raw) == false);
+                return raw;
+	}
+}
