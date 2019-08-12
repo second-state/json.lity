@@ -62,12 +62,22 @@ uint ref_end = ref.end;
     }
 
     function toUint(bytes memory b, uint i) internal pure returns (uint) {
-        return (uint(b[i+3])<<0)|(uint(b[i+2])<<8)|(uint(b[i+1])<<16)|(uint(b[i+0])<<24);
+        uint res = 0;
+        i += 8;
+        for (uint shift = 0; shift < 32; shift += 4) {
+            i--;
+            if (b[i] <= 57) {
+                res |= (uint(b[i]) - 48) << shift;
+            } else {
+                res |= (uint(b[i]) - 87) << shift;
+            }
+        }
+        return res;
     }
     function toValueRef(bytes memory b, uint i) internal pure returns (ValueRef) {
         ValueRef memory ref;
         ref.begin = toUint(b, i);
-        ref.end = toUint(b, i+4);
+        ref.end = toUint(b, i+8);
         return ref;
     }
     function toValueRef(bytes memory b) internal pure returns (ValueRef) {
