@@ -47,7 +47,7 @@ def run(litysource, inputfile):
                 os.path.splitext(contractfile)[0] + '.bin-runtime')
     assert len(
         valid_contracts
-    ) == 1, f'require exact 1 valid contracts, instead, got {valid_contracts}'
+    ) == 1, 'require exact 1 valid contracts, instead, got {valid_contracts}'.format(valid_contracts=valid_contracts)
     with open('tempdir/outputfile', 'wb') as f:
         check_call([
             EVM, '--codefile', valid_contracts[0], '--inputfile',

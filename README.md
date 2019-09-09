@@ -19,21 +19,11 @@ APIs are likely to change.
 - [x] Nested arrays & objects
 - [ ] Strings with unicode escape sequences, such as `"\u0068\u0065\u006c\u006c\u006f"`
 
-# Testing command examples
-
-```
-python3 run.py [lity source] [input file]
-```
-
-```
-$ python3 run.py lity/Reverse.lity data/test.txt
-$ sh showresult.sh
-dlroW ,olleH
-```
-
 # Run EVM Tests
 
-python -m unittest discover -s evmtests -t .
+```
+python3 -m unittest discover -s evmtests -t .
+```
 
 ## Manual evmtests run
 
