@@ -6,6 +6,25 @@ contract Test {
 	using JSON for JSON.ValueRef;
 	function main(string raw) pure public returns(string) {
 		JSON.ValueRef memory root = JSON.newValueRef(raw);
-		return root.asString(raw);
+		int value = root.asInt(raw);
+		if (value == 1) {
+			return "case 1";
+		}
+		if (value == 2) {
+			return "case 2";
+		}
+		if (value == 0) {
+			return "case 3";
+		}
+		if (value == -1) {
+			return "case 4";
+		}
+		if (value == 123) {
+			return "case 5";
+		}
+		if (value == -123) {
+			return "case 6";
+		}
+		return "other";
 	}
 }

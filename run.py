@@ -7,6 +7,7 @@ import glob
 import shlex
 import shutil
 import contextlib
+import sys
 
 LITYC = './lityc'
 EVM = './evm'
@@ -20,8 +21,8 @@ LD_LIBRARY_PATH = '{}:{}'.format(
 
 
 def check_call(cmd, **kw):
-    print(end='\033[4m')
-    print(*map(shlex.quote, cmd), end='\033[0m\n')
+    print(end='\033[4m', file=sys.stderr)
+    print(*map(shlex.quote, cmd), end='\033[0m\n', file=sys.stderr)
     return subprocess.check_call(cmd, **kw)
 
 

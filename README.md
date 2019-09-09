@@ -17,6 +17,7 @@ APIs are likely to change.
 - [x] Get array object by index
 - [x] Get object attribute by key (string)
 - [x] Nested arrays & objects
+- [ ] Strings with unicode escape sequences, like `"\u0068\u0065\u006c\u006c\u006f"`
 
 # Testing command examples
 
@@ -29,3 +30,12 @@ $ python3 run.py lity/Reverse.lity data/test.txt
 $ sh showresult.sh
 dlroW ,olleH
 ```
+
+# Run EVM Tests
+
+python -m unittest discover -s evmtests -t .
+
+## Manual evmtests run
+
+1.  copy `lity/json.lity` to the same directory of `test.lity` so it can be imported
+2.  run `python3 run.py path/to/test.lity path/to/input.json`

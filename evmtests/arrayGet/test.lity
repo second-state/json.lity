@@ -6,9 +6,8 @@ contract Test {
 	using JSON for JSON.ValueRef;
 	function main(string raw) pure public returns(string) {
 		JSON.ValueRef memory root = JSON.newValueRef(raw);
-		JSON.ValueRef memory a1 = root.arrayGet(raw, 1);
-		require(a1.begin == 10);
-		require(a1.end == 17);
-		return a1.asString(raw);
+		JSON.ValueRef memory index = root.arrayGet(raw, 0);
+		JSON.ValueRef memory next = root.arrayGet(raw, uint256(index.asInt(raw)));
+		return next.asString(raw);
 	}
 }

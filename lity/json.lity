@@ -25,6 +25,7 @@ library JSON {
 
     function getType(ValueRef memory ref, string memory s) internal pure returns (Type) {
         if (bytes(s)[ref.begin] == 't' || bytes(s)[ref.begin] == 'f') return Type.BOOL;
+        if (bytes(s)[ref.begin] == '-') return Type.NUMBER;
         if (48 <= uint8(bytes(s)[ref.begin]) && uint8(bytes(s)[ref.begin]) <= 57) return Type.NUMBER;
         if (bytes(s)[ref.begin] == '"') return Type.STRING;
         if (bytes(s)[ref.begin] == '[') return Type.ARRAY;
@@ -51,6 +52,9 @@ library JSON {
             require(b[i] <= 57);
             result *= 10;
             result += uint8(b[i]) - 48;
+        }
+        if (negative) {
+            result *= -1;
         }
         return result;
     }

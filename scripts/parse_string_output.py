@@ -18,5 +18,5 @@ if len(s) % 64 == 0:
     b = b[stringoffset + 32:stringoffset + 32 + stringlength]
     print(b.decode('utf-8'))
 else:
-    print(' An error occurred '.center(79, '='))
+    print('An error occurred:')
     print(s)

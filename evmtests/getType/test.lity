@@ -6,11 +6,22 @@ contract Test {
 	using JSON for JSON.ValueRef;
 	function main(string raw) pure public returns(string) {
 		JSON.ValueRef memory root = JSON.newValueRef(raw);
-                require(root.arrayGet(raw, 0).getType(raw) == JSON.Type.BOOL);
-                require(root.arrayGet(raw, 1).getType(raw) == JSON.Type.NUMBER);
-                require(root.arrayGet(raw, 2).getType(raw) == JSON.Type.STRING);
-                require(root.arrayGet(raw, 3).getType(raw) == JSON.Type.ARRAY);
-                require(root.arrayGet(raw, 4).getType(raw) == JSON.Type.OBJECT);
-                return raw;
+                JSON.Type t = root.getType(raw);
+                if (t == JSON.Type.BOOL) {
+                    return "BOOL";
+                }
+                if (t == JSON.Type.NUMBER) {
+                    return "NUMBER";
+                }
+                if (t == JSON.Type.STRING) {
+                    return "STRING";
+                }
+                if (t == JSON.Type.ARRAY) {
+                    return "ARRAY";
+                }
+                if (t == JSON.Type.OBJECT) {
+                    return "OBJECT";
+                }
+                return "<unknown>";
 	}
 }
