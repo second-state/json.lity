@@ -17,7 +17,7 @@ APIs are likely to change.
 - [x] Get array object by index
 - [x] Get object attribute by key (string)
 - [x] Nested arrays & objects
-- [ ] Strings with unicode escape sequences, like `"\u0068\u0065\u006c\u006c\u006f"`
+- [ ] Strings with unicode escape sequences, such as `"\u0068\u0065\u006c\u006c\u006f"`
 
 # Testing command examples
 
