@@ -16,7 +16,7 @@ APIs are likely to change.
 - [x] Get string
 - [x] Get array object by index
 - [x] Get object attribute by key (string)
-- [ ] Nested arrays & objects
+- [x] Nested arrays & objects
 
 # Testing command examples
 
