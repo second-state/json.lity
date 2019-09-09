@@ -6,10 +6,12 @@ import json
 import glob
 import shlex
 import shutil
+import contextlib
 
 LITYC = './lityc'
 EVM = './evm'
 GENERATE_STRING_INPUT = 'scripts/generate_string_input.py'
+PARSE_STRING_OUTPUT = 'scripts/parse_string_output.py'
 ENI_LIBRARY_PATH = os.path.abspath('libeni/build/examples/eni')
 ENI_LD_LIBRARY_PATH = os.path.abspath('libeni/build')
 LD_LIBRARY_PATH = '{}:{}'.format(
@@ -29,7 +31,8 @@ def run(litysource, inputfile):
         'ENI_LIBRARY_PATH': ENI_LIBRARY_PATH,
         'LD_LIBRARY_PATH': LD_LIBRARY_PATH,
     }
-    shutil.rmtree('tempdir')
+    with contextlib.suppress(FileNotFoundError):
+        shutil.rmtree('tempdir')
     os.mkdir('tempdir')
     check_call([LITYC, '--bin-runtime', litysource, '--abi', '-o', 'tempdir'])
     with open('tempdir/inputfile', 'wb') as f:
@@ -47,10 +50,12 @@ def run(litysource, inputfile):
     with open('tempdir/outputfile', 'wb') as f:
         check_call([
             EVM, '--codefile', valid_contracts[0], '--inputfile',
-            'tempdir/inputfile', '--statdump', '--gas', '1152921504606846975', 'run'
+            'tempdir/inputfile', '--statdump', '--gas', '1152921504606846975',
+            'run'
         ],
                    stdout=f,
                    env=environ)
+    check_call([PARSE_STRING_OUTPUT])
 
 
 def main():

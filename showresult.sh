@@ -1,1 +1,0 @@
-python3 scripts/parse_string_output.py
