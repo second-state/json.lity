@@ -43,13 +43,12 @@ class EVMTestCase(unittest.TestCase, metaclass=EVMTestCaseMeta):
             shutil.copy(os.path.join('lity', 'json.lity'), tmpd)
             res = subprocess.run(
                 ['python3', 'run.py', os.path.join(tmpd, 'test.lity'), json_file],
-                universal_newlines=True,
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
             )
             if res.returncode:
-                print(res.stderr, file=sys.stderr)
+                print(res.stderr.decode('utf-8'), file=sys.stderr)
                 res.check_returncode()
-            evm_result = res.stdout.rstrip()
+            evm_result = res.stdout.decode('utf-8').rstrip()
 
             self.assertEqual(py_result, evm_result, '[input: {}]\n{}'.format(json_file, raw))
